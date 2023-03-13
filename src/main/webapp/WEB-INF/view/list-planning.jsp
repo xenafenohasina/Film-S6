@@ -1,8 +1,8 @@
-<%@ page import="com.pack.spring_mvc.model.Planning" %>
+<%@ page import="com.pack.spring_mvc.model.Plannings" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.pack.spring_mvc.model.V_Scenario" %>
 <%
-  List<List<Planning>> allplanning=( List<List<Planning>>)request.getAttribute("allplanning");
+  List<List<Plannings>> allplanning=( List<List<Plannings>>)request.getAttribute("allplanning");
   String[]tempstravail={"Jour","Nuit"};
   int count=1;
 %>
@@ -25,9 +25,9 @@
   </div>
   <div class="container">
     <div class="row">
-      <%for(List<Planning>plannings:allplanning){%>
+      <%for(List<Plannings>plannings:allplanning){%>
       <% for(int j=0;j<plannings.size();j++){%>
-      <% Planning p=(Planning) plannings.get(j);%>
+      <% Plannings p=(Plannings) plannings.get(j);%>
       <div class="col-3">
         <h2 class="cs-widget_title"><span>Jour<%=(j+1)%></span> </h2>
         <div class="cs-tag_widget">

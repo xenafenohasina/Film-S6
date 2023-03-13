@@ -1,40 +1,43 @@
 package com.pack.spring_mvc.model;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
 public class Planning {
-    private int idjour;
-    private int tempstravail;
-    private V_Scenario[]  scenario;
 
-    public Planning() {
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @Column( name = "idplanning")
+    private Integer idPlanning;
+
+    @Column( name = "datedebut")
+    private LocalDateTime dateDebut;
+
+    @Column( name = "datefin")
+    private LocalDateTime dateFin;
+
+    public void setDateFin(LocalDateTime dateFin) {
+        this.dateFin = dateFin;
     }
 
-    public Planning(int idjour, int tempstravail, V_Scenario[] scenario) {
-        this.idjour = idjour;
-        this.tempstravail = tempstravail;
-        this.scenario = scenario;
+    public void setDateDebut(LocalDateTime dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
-    public int getIdjour() {
-        return idjour;
+    public void setIdPlanning(Integer idPlanning) {
+        this.idPlanning = idPlanning;
     }
 
-    public void setIdjour(int idjour) {
-        this.idjour = idjour;
+    public Integer getIdPlanning() {
+        return idPlanning;
     }
 
-    public int getTempstravail() {
-        return tempstravail;
+    public LocalDateTime getDateDebut() {
+        return dateDebut;
     }
 
-    public void setTempstravail(int tempstravail) {
-        this.tempstravail = tempstravail;
-    }
-
-    public V_Scenario[] getScenario() {
-        return scenario;
-    }
-
-    public void setScenario(V_Scenario[] scenario) {
-        this.scenario = scenario;
+    public LocalDateTime getDateFin() {
+        return dateFin;
     }
 }

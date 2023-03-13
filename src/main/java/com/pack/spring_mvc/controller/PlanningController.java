@@ -1,9 +1,7 @@
 package com.pack.spring_mvc.controller;
 
-import com.pack.spring_mvc.model.Planning;
+import com.pack.spring_mvc.model.Plannings;
 import com.pack.spring_mvc.model.Utilisateur;
-import com.pack.spring_mvc.model.V_Films;
-import com.pack.spring_mvc.model.V_Scenario;
 import com.pack.spring_mvc.service.AuteurService;
 import com.pack.spring_mvc.service.PlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class PlanningController {
             Utilisateur utilisateur = service.findUserSession(idUtilisateur);
 
             m.addAttribute("utilisateur", utilisateur );
-            List<List<Planning>> allplanning=planningService.getPlanByFilm(idFilm);
+            List<List<Plannings>> allplanning=planningService.getPlanByFilm(idFilm);
             m.addAttribute("allplanning",allplanning);
             return "list-planning";
         }
