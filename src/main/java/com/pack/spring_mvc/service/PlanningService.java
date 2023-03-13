@@ -1,22 +1,17 @@
 package com.pack.spring_mvc.service;
 
-
 import com.pack.spring_mvc.dao.HibernateDao;
-import com.pack.spring_mvc.model.Plannings;
-import com.pack.spring_mvc.model.TempsTravail;
-import com.pack.spring_mvc.model.V_Scenario;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import com.pack.spring_mvc.model.Planning;
+import com.pack.spring_mvc.model.PlanningPlateau;
+import com.pack.spring_mvc.model.Plateau;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PlanningService {
+
     @Autowired
     HibernateDao dao;
 
@@ -28,76 +23,25 @@ public class PlanningService {
         this.dao = dao;
     }
 
-    private List<V_Scenario>getScenarioByFilm(int idFilm){
-        Session sess=dao.getSessionFactory().openSession();
-        Criteria critere=sess.createCriteria(V_Scenario.class);
-        critere.add(Restrictions.eq("idfilms",idFilm));
-        return critere.list();
-    }
-
-    private long convertToMillisecond(Time t){
-        if(t==null){
-            return 0;
+    public Planning createPlanning(Planning planning)throws Exception{
+        try{
+            Planning p = dao.create(planning);
+            return p;
         }
-        return ((t.getHours()*60*60*1000)+(t.getMinutes()*60*1000)+(t.getSeconds()*1000));
-    }
-
-    public List<Plannings> getPlanningTemp(List<V_Scenario>allscenario, Time duration, int temjour){
-        List<V_Scenario> tempjour=new ArrayList<>();
-        long millisecond=0;
-        List<Plannings> tempplanningjour=new ArrayList<>();
-        for(int i=0;i<allscenario.size();i++){
-            V_Scenario scenario=(V_Scenario) allscenario.get(i);
-            millisecond+=(this.convertToMillisecond(scenario.getDuree()));
-            if(scenario.getTempstravail()==temjour){
-                System.out.println("millisecond"+millisecond+ "dure"+this.convertToMillisecond(duration));
-                if((millisecond>=this.convertToMillisecond(duration))||(((allscenario.size()==(i+1))))){
-                    if((millisecond<=this.convertToMillisecond(duration))){
-                        tempjour.add(scenario);
-                    }
-                    if(tempjour.size()>0){
-                        V_Scenario[]v_scenarios=new V_Scenario[tempjour.size()];
-                        tempplanningjour.add(new Plannings(0,temjour,tempjour.toArray(v_scenarios)));
-                        tempjour.clear();
-                    }
-                    if((millisecond>this.convertToMillisecond(duration))){
-                        tempjour.add(scenario);
-                        if((allscenario.size()==(i+1)||(((V_Scenario)allscenario.get(i+1)).getTempstravail()!=temjour))){
-                            V_Scenario[]all=new V_Scenario[tempjour.size()];
-                            tempplanningjour.add(new Plannings(0,temjour,tempjour.toArray(all)));
-                        }
-                    }
-                    millisecond=0;
-
-                }
-                else{
-                    tempjour.add(scenario);
-                    if((allscenario.size()==(i+1)||(((V_Scenario)allscenario.get(i+1)).getTempstravail()!=temjour))){
-                        V_Scenario[]all=new V_Scenario[tempjour.size()];
-                        tempplanningjour.add(new Plannings(0,temjour,tempjour.toArray(all)));
-                    }
-                }
-            }
+        catch (Exception e){
+            throw e;
         }
-        return tempplanningjour;
     }
 
-    public List<List<Plannings>>listAllPlan(List<V_Scenario>allscenario, TempsTravail tempsTravail){
-        long millisecond=0;
-        List<V_Scenario> tempjour=new ArrayList<>();
-        List<V_Scenario> tempnuit=new ArrayList<>();
-        List<Plannings> tempplanningjour=this.getPlanningTemp(allscenario,tempsTravail.getDureejour(),1);
-        List<Plannings> tempplanningnuit=this.getPlanningTemp(allscenario,tempsTravail.getDureenuit(),2);
-        List<List<Plannings>>allplanning=new ArrayList<>();
-        allplanning.add(tempplanningjour);
-        allplanning.add(tempplanningnuit);
-        return allplanning;
-    }
+    public void createPlanningPlateau(Planning planning, int [] idPlateau, String [] heureDebut, String [] heureFin){
+        for(int i=0; i<idPlateau.length; i++){
+            PlanningPlateau p = new PlanningPlateau();
+            Plateau plateau = dao.findById(Plateau.class,idPlateau[i]);
+            p.setPlanning(planning);
+            p.setPlateau(plateau);
+            p.setHeureDebut(Time.valueOf(heureDebut[i]));
+            p.setHeureFin(Time.valueOf(heureFin[i]));
 
-    public List<List<Plannings>> getPlanByFilm(int idFilm){
-        TempsTravail temps=dao.findAll(new TempsTravail()).get(0);
-        List<V_Scenario>allscenario=this.getScenarioByFilm(idFilm);
-        return this.listAllPlan(allscenario,temps);
+        }
     }
-
 }

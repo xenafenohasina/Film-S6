@@ -12,6 +12,9 @@ public class PlanningPlateau {
     private Integer idPlanningPlateau;
 
     @ManyToOne
+    @JoinColumn(name = "idplanning")
+    private Planning planning;
+    @ManyToOne
     @JoinColumn(name = "idplateau")
     private Plateau plateau;
 
@@ -51,5 +54,13 @@ public class PlanningPlateau {
 
     public Time getHeureFin() {
         return heureFin;
+    }
+
+    public void setPlanning(Planning planning) {
+        this.planning = planning;
+    }
+
+    public Planning getPlanning() {
+        return planning;
     }
 }

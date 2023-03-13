@@ -130,6 +130,8 @@ CREATE TABLE PlanningPlateau(
     PRIMARY KEY (idPlanningPlateau)
 );
 ALTER TABLE PlanningPlateau ADD FOREIGN KEY (idPlateau) REFERENCES Plateau(idPlateau) ;
+ALTER  TABLE PlanningPlateau ADD COLUMN idPlanning INT4 NOT NULL;
+ALTER TABLE PlanningPlateau ADD FOREIGN KEY (idPlanning) REFERENCES Planning(idPlanning) ;
 
 CREATE TABLE PlanningScene(
     idPlanningScene SERIAL NOT NULL,

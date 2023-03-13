@@ -3,7 +3,7 @@ package com.pack.spring_mvc.controller;
 import com.pack.spring_mvc.model.Plannings;
 import com.pack.spring_mvc.model.Utilisateur;
 import com.pack.spring_mvc.service.AuteurService;
-import com.pack.spring_mvc.service.PlanningService;
+import com.pack.spring_mvc.service.PlanningsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 public class PlanningController {
     @Autowired
-    PlanningService planningService;
+    PlanningsService planningService;
 
     @Autowired
     AuteurService service;
