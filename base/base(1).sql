@@ -114,3 +114,32 @@ CREATE TABLE TempsTravail(
     dureejour time NOT NULL,
     dureenuit time NOT NULL
 );
+
+CREATE TABLE Planning(
+    idPlanning SERIAL NOT NULL,
+    dateDebut timestamp NOT NULL,
+    dateFin timestamp NOT NULL,
+    PRIMARY KEY (idPlanning)
+);
+
+CREATE TABLE PlanningPlateau(
+    idPlanningPlateau SERIAL NOT NULL,
+    idPlateau INT4 NOT NULL,
+    heure_debut time NOT NULL,
+    heure_fin time NOT NULL,
+    PRIMARY KEY (idPlanningPlateau)
+);
+ALTER TABLE PlanningPlateau ADD FOREIGN KEY (idPlateau) REFERENCES Plateau(idPlateau) ;
+
+CREATE TABLE PlanningScene(
+    idPlanningScene SERIAL NOT NULL,
+    idScene INT4 NOT NULL,
+    idPlanning INT4 NOT NULL,
+    dateDebut timestamp,
+    dateFin timestamp,
+    heureIdeal time,
+    PRIMARY KEY (idPlanningScene)
+);
+ALTER TABLE PlanningScene ADD FOREIGN KEY (idScene) REFERENCES Scene(idScene);
+ALTER TABLE PlanningScene ADD FOREIGN KEY (idPlanning) REFERENCES Planning(idPlanning);
+

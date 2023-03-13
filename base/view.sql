@@ -1,9 +1,11 @@
 CREATE OR REPLACE VIEW V_Films AS
     SELECT 
         Films.*,
-        Statut.nom as statut
+        Statut.nom as statut,
+        Utilisateur.nom as nomutilisateur
     FROM
         Films JOIN Statut ON Films.idStatut = Statut.idStatut
+        JOIN Utilisateur ON Films.idutilisateur = Utilisateur.idutilisateur
 ;
 
 CREATE OR REPLACE VIEW V_Scene AS 
