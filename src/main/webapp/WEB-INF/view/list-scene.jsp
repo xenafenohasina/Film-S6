@@ -140,6 +140,7 @@
         </div>
     </div>
 </div>
+<p></p>
 <script src="${pageContext.request.contextPath}/resources/theme/assets/js/plugins/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/theme/assets/js/plugins/isotope.pkg.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/theme/assets/js/plugins/jquery.slick.min.js"></script>
