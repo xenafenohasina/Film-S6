@@ -50,7 +50,7 @@ INSERT INTO Scenario VALUES
 ;
 
 INSERT INTO Personnage VALUES
-    (1,'Aucun','',1),
+    (DEFAULT,'Aucun','',1),
     (DEFAULT,'Carole','Fille tres serieuse',1),
     (DEFAULT,'Hubert','Homme tres comique',1)
 ;
