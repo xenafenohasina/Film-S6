@@ -6,6 +6,7 @@ import com.pack.spring_mvc.model.Utilisateur;
 import com.pack.spring_mvc.service.AuteurService;
 import com.pack.spring_mvc.service.PlanningService;
 import com.pack.spring_mvc.service.PlanningsService;
+import com.pack.spring_mvc.service.PlateauService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,9 @@ public class PlanningController {
 
     @Autowired
     PlanningService planningService;
+
+    @Autowired
+    PlateauService plateauService;
 
     @Autowired
     AuteurService service;
@@ -46,7 +50,7 @@ public class PlanningController {
     }*/
 
     @PostMapping("/planifier")
-    public String planifier(@RequestParam int [] idScene,@RequestParam String [] heureIdeal, Model m, HttpSession httpSession){
+    public String planifier(@RequestParam int [] idScene,@RequestParam String [] heureIdeal, Model m, HttpSession httpSession)throws Exception{
         try{
             int idUtilisateur = (int)httpSession.getAttribute("idUtilisateur");
             Utilisateur utilisateur = service.findUserSession(idUtilisateur);
@@ -55,7 +59,8 @@ public class PlanningController {
             m.addAttribute("idScene", idScene);
             m.addAttribute("heureIdeal", heureIdeal);
 
-            return "planifier";
+            m.addAttribute("plateaux", plateauService.getAll());
+            return "create-planning";
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -73,7 +78,7 @@ public class PlanningController {
             Planning p = planningService.createPlanning(planning, idPlateau, heureDebut, heureFin, idScene, heureIdeal);
 
             m.addAttribute("planning", p);
-            return "planning";
+            return "list-planning";
         }
         catch (Exception ex){
             ex.printStackTrace();

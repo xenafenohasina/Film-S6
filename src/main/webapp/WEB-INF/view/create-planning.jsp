@@ -2,13 +2,13 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.pack.spring_mvc.model.Personnage" %>
 <%
-
-    ArrayList<Plateau> plateaus = (ArrayList<Plateau>) request.getAttribute("plateaus");
-
+    ArrayList<Plateau> plateaux = (ArrayList<Plateau>) request.getAttribute("plateaux");
+    int [] idScene = (int [])request.getAttribute("idScene");
+    String [] heureIdeal = (String []) request.getAttribute("heureIdeal");
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ include file="header.jsp" %>
+<%@ include file="navbar.jsp" %>
 
 
 <style>
@@ -31,22 +31,20 @@
                     <div class="card-header">
                         <strong class="card-title">Planning</strong>
                     </div>
-                    <form id="theForm" action="save-scenario" method="post">
+                    <form id="theForm" action="<%= request.getContextPath() %>/valider" method="post">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="form-group mb-3">
 
-                                        <input type="hidden" name="idScene" value="1">
-
-                                    </div>
+                                    <% for(int j=0; j<idScene.length; j++){ %>
+                                        <input type="hidden" name="idScene" value="<%= idScene[j] %>">
+                                        <input type="hidden" name="heureIdeal" value=<%= heureIdeal[j] %>>
+                                    <% } %>
 
                                     
                                     <div style="width: 700px" >
-                                        <input type="date" name="dateHeureDebut" required />
-                                        <input type="date" name="dateHeureFin" required />
-
-
+                                        <input type="datetime-local" name="dateDebut" required />
+                                        <input type="datetime-local" name="dateFin" required />
                                     </div> <!-- /.col -->
 
                                 </div>
@@ -57,8 +55,6 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group mb-3">
-
-
 
                                     </div>
 
@@ -117,9 +113,9 @@
         e.setAttribute("style","height : 50px");
 
 
-        <% for (int i = 0; i < personnages.size(); i++) { %>
+        <% for (int i = 0; i < plateaux.size(); i++) { %>
 
-            e.options[<%= i %>] = new Option("<%= plateau.get(i).getNom() %>","<%= plateau.get(i).getIdPlateau() %>");
+            e.options[<%= i %>] = new Option("<%= plateaux.get(i).getNom() %>","<%= plateaux.get(i).getIdPlateau() %>");
 
         <% } %>
 
